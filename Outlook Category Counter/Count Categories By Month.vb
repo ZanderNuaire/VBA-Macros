@@ -15,15 +15,15 @@ Sub CountCategoriesByMonth()
     Dim usePredefinedCategories As Boolean
     Dim i As Long
     Dim emailCount As Long
-    Const maxEmails As Long = 100
+    Const maxEmails As Long = 3000
 
     ' Toggle between predefined and dynamic categories. True for predefined, False for dynamic
     usePredefinedCategories = False
 
     ' Initialize variables
     Set olNamespace = Application.GetNamespace("MAPI")
-    Set olFolder = olNamespace.GetDefaultFolder(olFolderInbox) ' Change to the desired folder
-    ' Set olFolder = olNamespace.Folders("Team Requests").Folders("Inbox")
+    'Set olFolder = olNamespace.GetDefaultFolder(olFolderInbox) ' Change to the desired folder
+    Set olFolder = olNamespace.Folders("Nuaire AfterSales").Folders("Inbox")
     Set olItems = olFolder.Items
     sixWeeksAgo = DateAdd("ww", -6, Date) ' Calculate the date six weeks ago
     
