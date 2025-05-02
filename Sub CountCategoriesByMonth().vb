@@ -14,13 +14,16 @@ Sub CountCategoriesByMonth()
     Dim predefinedCategories As Variant
     Dim usePredefinedCategories As Boolean
     Dim i As Long
-    
-    ' Toggle between predefined and dynamic categories
-    usePredefinedCategories = False ' Set to True for predefined, False for dynamic
+    Dim emailCount As Long
+    Const maxEmails As Long = 100
+
+    ' Toggle between predefined and dynamic categories. True for predefined, False for dynamic
+    usePredefinedCategories = False
 
     ' Initialize variables
     Set olNamespace = Application.GetNamespace("MAPI")
     Set olFolder = olNamespace.GetDefaultFolder(olFolderInbox) ' Change to the desired folder
+    ' Set olFolder = olNamespace.Folders("Team Requests").Folders("Inbox")
     Set olItems = olFolder.Items
     sixWeeksAgo = DateAdd("ww", -6, Date) ' Calculate the date six weeks ago
     
@@ -32,12 +35,12 @@ Sub CountCategoriesByMonth()
     Set categoryCounts = CreateObject("Scripting.Dictionary")
     
     ' Predefine the months within the 6-week range
-    predefinedMonths = Array(Format(DateAdd("ww", -6, Date), "yyyy-mm"), _
-                             Format(DateAdd("ww", -6, DateAdd("m", 1, Date)), "yyyy-mm"), _
-                             Format(Date, "yyyy-mm"))
+    predefinedMonths = Array(Format(DateAdd("ww", -6, Date), "mm-yyyy"), _
+                             Format(DateAdd("ww", -6, DateAdd("m", 1, Date)), "mm-yyyy"), _
+                             Format(Date, "mm-yyyy"))
     
     ' If using predefined categories, set them here
-    predefinedCategories = Array("Category1", "Category2", "Category3") ' Replace with your expected categories
+    predefinedCategories = Array("Category1", "Category2", "Category3")
     If usePredefinedCategories Then
         For Each category In predefinedCategories
             If Not categoryCounts.exists(category) Then
@@ -53,10 +56,13 @@ Sub CountCategoriesByMonth()
     End If
     
     ' Iterate through restricted items
+    emailCount = 0 ' Initialize the email counter
     For Each olItem In restrictedItems
+        If emailCount >= maxEmails Then Exit For ' Stop processing after reaching the limit
+
         If TypeOf olItem Is Outlook.MailItem Then
             itemDate = olItem.ReceivedTime
-            monthYearKey = Format(itemDate, "yyyy-mm")
+            monthYearKey = Format(itemDate, "mm-yyyy") ' Change format to MM-yyyy
             
             ' Split categories (items can have multiple categories)
             If olItem.Categories <> "" Then
@@ -81,6 +87,8 @@ SkipCategory:
                 Next category
             End If
         End If
+
+        emailCount = emailCount + 1 ' Increment the email counter
     Next olItem
     
     ' Generate output
@@ -95,4 +103,3 @@ SkipCategory:
     ' Display results
     MsgBox output, vbInformation, "Category Counts by Month"
 End Sub
-
