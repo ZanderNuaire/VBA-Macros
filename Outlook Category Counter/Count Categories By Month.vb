@@ -1,5 +1,5 @@
 Sub CountCategoriesByMonth()
-    On Error GoTo ErrorHandler ' Add error handling
+    On Error GoTo ErrorHandler
 
     Dim olNamespace As Outlook.NameSpace
     Dim olFolder As Outlook.Folder
