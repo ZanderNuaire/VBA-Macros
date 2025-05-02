@@ -8,33 +8,38 @@ Sub CountCategoriesByMonth()
     Dim monthYearKey As Variant
     Dim category As Variant
     Dim output As String
+    Dim sixWeeksAgo As Date
     
     ' Initialize variables
     Set olNamespace = Application.GetNamespace("MAPI")
     Set olFolder = olNamespace.GetDefaultFolder(olFolderInbox) ' Change to desired folder
     Set olItems = olFolder.Items
     Set categoryCounts = CreateObject("Scripting.Dictionary")
+    sixWeeksAgo = DateAdd("ww", -6, Date) ' Calculate the date six weeks ago
     
     ' Iterate through each item in the folder
     For Each olItem In olItems
         If TypeOf olItem Is Outlook.MailItem Then
             itemDate = olItem.ReceivedTime
-            monthYearKey = Format(itemDate, "yyyy-mm")
-            
-            ' Split categories (items can have multiple categories)
-            If olItem.Categories <> "" Then
-                For Each category In Split(olItem.Categories, ",")
-                    category = Trim(category) ' Clean up spacing
-                    If Not categoryCounts.exists(category) Then
-                        Set categoryCounts(category) = CreateObject("Scripting.Dictionary")
-                    End If
-                    
-                    ' Count items by month
-                    If Not categoryCounts(category).exists(monthYearKey) Then
-                        categoryCounts(category)(monthYearKey) = 0
-                    End If
-                    categoryCounts(category)(monthYearKey) = categoryCounts(category)(monthYearKey) + 1
-                Next category
+            ' Check if the item is within the last six weeks
+            If itemDate >= sixWeeksAgo Then
+                monthYearKey = Format(itemDate, "yyyy-mm")
+                
+                ' Split categories (items can have multiple categories)
+                If olItem.Categories <> "" Then
+                    For Each category In Split(olItem.Categories, ",")
+                        category = Trim(category) ' Clean up spacing
+                        If Not categoryCounts.exists(category) Then
+                            Set categoryCounts(category) = CreateObject("Scripting.Dictionary")
+                        End If
+                        
+                        ' Count items by month
+                        If Not categoryCounts(category).exists(monthYearKey) Then
+                            categoryCounts(category)(monthYearKey) = 0
+                        End If
+                        categoryCounts(category)(monthYearKey) = categoryCounts(category)(monthYearKey) + 1
+                    Next category
+                End If
             End If
         End If
     Next olItem
