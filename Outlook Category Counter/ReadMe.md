@@ -53,7 +53,6 @@ Copy and paste the VBA macro into the new module:
 ---
 
 ### **Why Use This?**
-✅ **Eliminates manual category counting**  
 ✅ **Saves time (reportedly about an hour each month!)**  
 ✅ **Reduces errors**  
 ✅ **Easy to run anytime**

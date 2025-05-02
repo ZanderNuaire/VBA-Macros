@@ -39,8 +39,8 @@ Sub CountCategoriesByMonth()
                              Format(DateAdd("ww", -6, DateAdd("m", 1, Date)), "mm-yyyy"), _
                              Format(Date, "mm-yyyy"))
     
-    ' If using predefined categories, set them here
     predefinedCategories = Array("Category1", "Category2", "Category3")
+    
     If usePredefinedCategories Then
         For Each category In predefinedCategories
             If Not categoryCounts.exists(category) Then
@@ -58,7 +58,7 @@ Sub CountCategoriesByMonth()
     ' Iterate through restricted items
     emailCount = 0 ' Initialize the email counter
     For Each olItem In restrictedItems
-        If emailCount >= maxEmails Then Exit For ' Stop processing after reaching the limit
+        If emailCount >= maxEmails Then Exit For
 
         If TypeOf olItem Is Outlook.MailItem Then
             itemDate = olItem.ReceivedTime
@@ -73,7 +73,6 @@ Sub CountCategoriesByMonth()
                         If Not usePredefinedCategories Then
                             Set categoryCounts(category) = CreateObject("Scripting.Dictionary")
                         Else
-                            ' Skip categories that are not predefined
                             GoTo SkipCategory
                         End If
                     End If
@@ -88,7 +87,7 @@ SkipCategory:
             End If
         End If
 
-        emailCount = emailCount + 1 ' Increment the email counter
+        emailCount = emailCount + 1
     Next olItem
     
     ' Generate output
