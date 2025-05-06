@@ -21,7 +21,6 @@ This VBA macro will automatically count the number of emails in your Outlook inb
 ### **2. Paste the Macro Code**
 Copy and paste the VBA macro into the new module:
 
----
 
 ### **3. Run the Macro**
 1. In the VBA editor, press **ALT + F8**.
@@ -40,7 +39,6 @@ If the Developer tab is not visible in your Outlook ribbon, follow these steps t
 
 Once the Developer tab is enabled, you can run the marco by clicking on **Developer > Macros** and selecting it from the list. 
 
----
 
 ## **Customization Options**
 - **Dynamic vs. Predefined Categories**:  
@@ -87,7 +85,7 @@ Once the Developer tab is enabled, you can run the marco by clicking on **Develo
 ---
 ### **Why Use This?**
 ✅ **Saves time (reportedly about an hour each month!)**  
-✅ **Reduces errors**  
+✅ **Reduces human errors**  
 ✅ **Easy to run anytime**   
 ✅ **Far less soul destroying**  
 
