@@ -35,8 +35,8 @@ Sub CountCategoriesByMonth()
         If olFolder Is Nothing Then Exit Sub ' User canceled folder selection
     Else
         ' Use predefined folder
-        Set olFolder = olNamespace.GetDefaultFolder(olFolderInbox)
-        'Set olFolder = olNamespace.Folders("Nuaire AfterSales").Folders("Inbox")
+        'Set olFolder = olNamespace.GetDefaultFolder(olFolderInbox)
+        Set olFolder = olNamespace.Folders("Nuaire AfterSales").Folders("Inbox")
     End If
 
     Set olItems = olFolder.Items
